@@ -1,7 +1,11 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   flex: 1;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
 }
 
 .sidebar {
@@ -9,7 +13,6 @@
   border: 2px solid #111111;
   width: 200px;
   height: 100vh;
-  position: fixed;
   left: 0;
   top: 0;
   padding: 16px;
