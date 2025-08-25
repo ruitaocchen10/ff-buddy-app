@@ -1,4 +1,7 @@
 .PlayerRow {
-  height: 64px;
+  height: 48px;
   width: 200px;
+  display: flex;
+  align-items: center;
+  background-color: aqua;
 }
