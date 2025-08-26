@@ -9,8 +9,7 @@
 }
 
 .sidebar {
-  background-color: white;
-  border: 2px solid #111111;
+  background-color: #282828;
   width: 200px;
   height: 100vh;
   left: 0;
@@ -34,6 +33,170 @@
 .dashboard {
   flex: 1;
   height: 100vh;
-  background-color: white;
-  border: 2px solid #111111;
+  padding: 24px;
+  background-color: #111111;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.template-card {
+  background: #1f1f23;
+  border: 1px solid #333338;
+  border-radius: 0.75rem;
+
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.template-card:hover {
+  background: #27272a;
+  border-color: #404040;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.template-card h3 {
+  color: #e4e4e7;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.025em;
+}
+
+.template-card p {
+  color: #a1a1aa;
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.template-card-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333338;
+}
+
+.template-card-stat {
+  color: #71717a;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.template-card-stat span {
+  color: #e4e4e7;
+  font-weight: 600;
+}
+
+.template-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333338;
+}
+
+.CreateARanking {
+  padding: 24px 48px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.CreateARanking h1 {
+  color: #e4e4e7;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.025em;
+}
+
+.CreateARanking input[type="text"] {
+  background: #1f1f23;
+  border: 1px solid #333338;
+  color: #e4e4e7;
+
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+
+  font-family: inherit;
+  font-size: 0.875rem;
+
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  outline: none;
+}
+
+.CreateARanking input[type="text"]:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.CreateARanking input[type="text"]::placeholder {
+  color: #71717a;
+}
+
+.CreateARanking > button {
+  display: block;
+  margin: 0 0 2rem 0;
+}
+
+.tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333338;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid #404040;
+  color: #a1a1aa;
+
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  outline: none;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: #18181b;
+  color: #e4e4e7;
+  border-color: #525252;
+}
+
+.tab:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.tab.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.tab.active:hover {
+  background: #2563eb;
+  border-color: #2563eb;
 }

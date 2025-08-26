@@ -83,7 +83,7 @@ function CreateARanking() {
 
   return (
     <>
-      <div>
+      <div className="CreateARanking">
         <h1>Create A Ranking</h1>
         <input
           type="text"
