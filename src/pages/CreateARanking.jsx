@@ -2,7 +2,7 @@ import React from "react";
 import PlayerRow from "../components/PlayerRow";
 import { useState } from "react";
 import dummyPlayers from "../components/data/dummyPlayers.js";
-
+import { useLocation } from "react-router-dom";
 import {
   DndContext,
   closestCenter,
@@ -19,24 +19,41 @@ import {
 } from "@dnd-kit/sortable";
 
 function CreateARanking() {
-  const [players, setPlayers] = useState(dummyPlayers);
+  const location = useLocation();
+  const templateData = location.state?.templateData;
+  const [playersByPosition, setPlayersByPosition] = useState(
+    templateData ? templateData.positions : dummyPlayers
+  );
+
+  const [templateName, setTemplateName] = useState(
+    templateData ? templateData.name : ""
+  );
+  const [activeTab, setActiveTab] = useState("QB");
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const [templateName, setTemplateName] = useState("");
 
   function handleDragEnd(event) {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setPlayers((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+      setPlayersByPosition((prevPositions) => {
+        const currentPlayers = prevPositions[activeTab];
+        const oldIndex = currentPlayers.findIndex(
+          (item) => item.id === active.id
+        );
+        const newIndex = currentPlayers.findIndex(
+          (item) => item.id === over.id
+        );
 
-        return arrayMove(items, oldIndex, newIndex);
+        return {
+          ...prevPositions,
+          [activeTab]: arrayMove(currentPlayers, oldIndex, newIndex),
+        };
       });
     }
   }
@@ -49,27 +66,19 @@ function CreateARanking() {
 
     const template = {
       name: templateName,
-      players: players,
+      positions: playersByPosition,
       createdAt: new Date().toISOString(),
     };
 
-    // Get existing templates from localStorage
     const existingTemplates = JSON.parse(
       localStorage.getItem("rankingTemplates") || "[]"
     );
 
-    // Add new template
     const updatedTemplates = [...existingTemplates, template];
-
-    // Save back to localStorage
     localStorage.setItem("rankingTemplates", JSON.stringify(updatedTemplates));
 
     alert(`Template "${templateName}" saved!`);
-    setTemplateName(""); // Clear the input
-    console.log(
-      "All saved templates:",
-      JSON.parse(localStorage.getItem("rankingTemplates") || "[]")
-    );
+    setTemplateName("");
   }
 
   return (
@@ -83,12 +92,24 @@ function CreateARanking() {
           onChange={(e) => setTemplateName(e.target.value)}
         />
         <button onClick={saveTemplate}>Save Template</button>
+        {/* Tab Navigation */}
+        <div className="tab-navigation">
+          {Object.keys(playersByPosition).map((position) => (
+            <button
+              key={position}
+              onClick={() => setActiveTab(position)}
+              className={activeTab === position ? "tab active" : "tab"}
+            >
+              {position} ({playersByPosition[position].length})
+            </button>
+          ))}
+        </div>
         <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
           <SortableContext
-            items={players}
+            items={playersByPosition[activeTab]}
             strategy={verticalListSortingStrategy}
           >
-            {players.map((player) => (
+            {playersByPosition[activeTab].map((player) => (
               <PlayerRow key={player.id} player={player} />
             ))}
           </SortableContext>
