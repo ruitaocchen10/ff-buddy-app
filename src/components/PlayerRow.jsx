@@ -20,9 +20,11 @@ function PlayerRow({ player }) {
       {...listeners}
       className="PlayerRow"
     >
-      <span>{player.name}</span>
+      <div className="PlayerInfo">
+        <span className="PlayerName">{player.name}</span>
+        <span className="PlayerTeam">{player.team}</span>
+      </div>
       <span>{player.position}</span>
-      <span>{player.team}</span>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import PlayerRow from "../components/PlayerRow";
 import { useState } from "react";
+import Divider from "../components/Divider";
 import dummyPlayers from "../components/data/dummyPlayers.js";
 import { useLocation } from "react-router-dom";
 import {
@@ -81,6 +82,25 @@ function CreateARanking() {
     setTemplateName("");
   }
 
+  function handleDeleteDivider(dividerId) {
+    setPlayersByPosition((prevPositions) => ({
+      ...prevPositions,
+      [activeTab]: prevPositions[activeTab].filter(
+        (item) => item.id !== dividerId
+      ),
+    }));
+  }
+
+  function addDivider() {
+    const newDividerId = `${activeTab.toLowerCase()}-divider-${Date.now()}`;
+    const newDivider = { id: newDividerId, type: "divider" };
+
+    setPlayersByPosition((prevPositions) => ({
+      ...prevPositions,
+      [activeTab]: [...prevPositions[activeTab], newDivider],
+    }));
+  }
+
   return (
     <>
       <div className="CreateARanking">
@@ -100,18 +120,33 @@ function CreateARanking() {
               onClick={() => setActiveTab(position)}
               className={activeTab === position ? "tab active" : "tab"}
             >
-              {position} ({playersByPosition[position].length})
+              {position} (
+              {
+                playersByPosition[position].filter(
+                  (item) => item.type === "player"
+                ).length
+              }
+              )
             </button>
           ))}
         </div>
+        <button onClick={addDivider}>Add Divider</button>
         <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
           <SortableContext
             items={playersByPosition[activeTab]}
             strategy={verticalListSortingStrategy}
           >
-            {playersByPosition[activeTab].map((player) => (
-              <PlayerRow key={player.id} player={player} />
-            ))}
+            {playersByPosition[activeTab].map((item) =>
+              item.type === "player" ? (
+                <PlayerRow key={item.id} player={item} />
+              ) : (
+                <Divider
+                  key={item.id}
+                  divider={item}
+                  onDelete={handleDeleteDivider}
+                />
+              )
+            )}
           </SortableContext>
         </DndContext>
       </div>
